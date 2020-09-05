@@ -66,12 +66,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product updateProduct(Product product, int id) throws ProductNotExistsException {
-        Optional optional = productRepository.findById(id);
-        Product oldProduct;
-        if (!optional.isPresent()) {
+        Product oldProduct = productRepository.findById(id).get();
+        if (oldProduct == null) {
             throw new ProductNotExistsException("Product with the given id doesn't exist");
         } else {
-            oldProduct = productRepository.findById(id).get();
             oldProduct.setProdName(product.getProdName());
             oldProduct.setProdCategory(product.getProdCategory());
         }

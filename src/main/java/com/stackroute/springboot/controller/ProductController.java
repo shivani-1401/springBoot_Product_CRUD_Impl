@@ -73,7 +73,7 @@ public class ProductController {
         return responseEntity;
     }
 
-    @DeleteMapping("/products/delete/{id}")
+    @DeleteMapping("/product/delete/{id}")
     public ResponseEntity<Product> deleteProductById(@PathVariable int id) {
         try {
             Product product = productService.getProductById(id);
@@ -85,15 +85,15 @@ public class ProductController {
         return responseEntity;
     }
 
-    @PostMapping("/product/update/{prod}/{id}")
-    public ResponseEntity<Product> deleteProductById(@PathVariable Product prod, @PathVariable int id) {
+    @PutMapping("/product/update/{id}")
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product, @PathVariable int id) {
         try {
-            Product product = productService.updateProduct(prod, id);
-            responseEntity = new ResponseEntity(product, HttpStatus.OK);
+            Product currentProduct = productService.getProductById(id);
+            currentProduct = productService.updateProduct(product, id);
+            responseEntity = new ResponseEntity(currentProduct, HttpStatus.OK);
         } catch (ProductNotExistsException e) {
             responseEntity = new ResponseEntity(e.getMessage(), HttpStatus.CONFLICT);
         }
         return responseEntity;
     }
-
 }
