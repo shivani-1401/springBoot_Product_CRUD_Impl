@@ -72,6 +72,7 @@ public class ProductServiceImpl implements ProductService {
         } else {
             oldProduct.setProdName(product.getProdName());
             oldProduct.setProdCategory(product.getProdCategory());
+            productRepository.save(oldProduct);
         }
         return oldProduct;
     }

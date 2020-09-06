@@ -50,7 +50,7 @@ public class ProductController {
         return responseEntity;
     }
 
-    @GetMapping("/product/{id}")
+    @GetMapping("/products/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable int id) {
         try {
             Product product = productService.getProductById(id);
@@ -61,7 +61,7 @@ public class ProductController {
         return responseEntity;
     }
 
-    @GetMapping("/category/{prodCategory}/products")
+    @GetMapping("/products/category/{prodCategory}")
     public ResponseEntity<Product> getProductById(@PathVariable String prodCategory) {
         try {
             List<Product> products = productService.getProductByCategory(prodCategory);
@@ -73,7 +73,7 @@ public class ProductController {
         return responseEntity;
     }
 
-    @DeleteMapping("/product/delete/{id}")
+    @DeleteMapping("/products/{id}")
     public ResponseEntity<Product> deleteProductById(@PathVariable int id) {
         try {
             Product product = productService.getProductById(id);
@@ -85,14 +85,14 @@ public class ProductController {
         return responseEntity;
     }
 
-    @PutMapping("/product/update/{id}")
+    @PutMapping("/products/{id}")
     public ResponseEntity<Product> updateProduct(@RequestBody Product product, @PathVariable int id) {
         try {
             Product currentProduct = productService.getProductById(id);
             currentProduct = productService.updateProduct(product, id);
             responseEntity = new ResponseEntity(currentProduct, HttpStatus.OK);
         } catch (ProductNotExistsException e) {
-            responseEntity = new ResponseEntity(e.getMessage(), HttpStatus.CONFLICT);
+            responseEntity = new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
         }
         return responseEntity;
     }
